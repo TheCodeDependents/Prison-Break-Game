@@ -11,11 +11,14 @@ public class Board {
 
     private Cell[][] cell;
     private Game game;
+    private Canvas canvas;
 
     public Board(Game game, Canvas canvas) {
 
         this.game = game;
         this.cell = new Cell[28][28];
+        this.canvas = canvas;
+        String test = "Test Message";
 
         for (int i = 0; i < 28; i++) {
             for (int j = 0; j < 28; j++) {
@@ -24,6 +27,7 @@ public class Board {
         }
 
         this.draw(canvas);
+        // Alert.display(test);
     }
 
     public Cell getCell(int row, int col) {
@@ -33,6 +37,8 @@ public class Board {
     public Game getGame() {
         return this.game;
     }
+
+    public Canvas getCanvas() { return this.canvas; }
 
     public void draw(Canvas canvas) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
