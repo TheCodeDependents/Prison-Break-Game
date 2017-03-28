@@ -13,11 +13,35 @@ public class Board {
     private Game game;
     private Canvas canvas;
 
+    // Room colors
+    private String[] cols = {"FF0000", "0000FF", "00FF00", "FF00FF", "000000"};
+    // Room critical coordinates
+    private Tuple[][] cods = {
+        new Tuple[]{new Tuple(5,0), new Tuple(5,3), new Tuple(5,3),
+                    new Tuple(5,4), new Tuple(5,6), new Tuple(3,6),
+                    new Tuple(3,7), new Tuple(0,7)},
+        new Tuple[]{new Tuple(24,0), new Tuple(24,5), new Tuple(25,5),
+                    new Tuple(25,5), new Tuple(26,5), new Tuple(28,5)},
+        new Tuple[]{new Tuple(0,23), new Tuple(2,23), new Tuple(2,24),
+                    new Tuple(3,24), new Tuple(3,24), new Tuple(4,24),
+                    new Tuple(5,24), new Tuple(5,23), new Tuple(6,23),
+                    new Tuple(6,26), new Tuple(6,26), new Tuple(6,27),
+                    new Tuple(6,28)},
+        new Tuple[]{new Tuple(24,28), new Tuple(24,24), new Tuple(25,24),
+                    new Tuple(25,24), new Tuple(26,24), new Tuple(28,24)},
+        new Tuple[]{new Tuple(13,13), new Tuple(14,13), new Tuple(14,13),
+                    new Tuple(15,13), new Tuple(17,13), new Tuple(17,17),
+                    new Tuple(13,17), new Tuple(13,13), new Tuple(14,13)}
+    };
+    private Room[] rooms = new Room[10];
+
     public Board(Game game, Canvas canvas) {
 
         this.game = game;
         this.cell = new Cell[28][28];
         this.canvas = canvas;
+        this.rooms = new Room[10];
+
         String test = "Test Message";
 
         for (int i = 0; i < 28; i++) {
@@ -53,6 +77,17 @@ public class Board {
         for (int i = 200; i < 2900; i += 100) {
             gc.strokeLine(i, 100, i, 2900);
             gc.strokeLine(100, i, 2900, i);
+        }
+
+        this.initRooms(gc);
+    }
+
+    public void initRooms(GraphicsContext gc) {
+        int i = 0;
+        for (Tuple[] cod : this.cods) {
+            this.rooms[i] = new Room(this.cols[i], cod , cod.length, this, gc);
+            this.rooms[i].draw();
+            i++;
         }
     }
 }
