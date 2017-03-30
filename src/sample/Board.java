@@ -12,6 +12,8 @@ public class Board {
     private Cell[][] cell;
     private Game game;
     private Canvas canvas;
+    private int SIZE;
+    private int CELLSIZE;
 
     // Room colors
     private String[] cols = {"FF0000", "0000FF", "00FF00", "FF00FF", "000000"};
@@ -35,12 +37,14 @@ public class Board {
     };
     private Room[] rooms = new Room[10];
 
-    public Board(Game game, Canvas canvas) {
+    public Board(Game game, Canvas canvas, int size) {
 
         this.game = game;
         this.cell = new Cell[28][28];
         this.canvas = canvas;
         this.rooms = new Room[10];
+        this.SIZE = size;
+        this.CELLSIZE = this.SIZE/30;
 
         String test = "Test Message";
 
@@ -64,7 +68,8 @@ public class Board {
 
     public Canvas getCanvas() { return this.canvas; }
 
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas)
+    {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         gc.setFill(Color.ORANGE);
@@ -72,22 +77,28 @@ public class Board {
         gc.setFill(Color.YELLOW);
         gc.setStroke(Color.GREY);
         gc.setLineWidth(1);
-        gc.strokeRect(100,100,2800,2800);
-        gc.fillRect(100, 100, 2800, 2800);
-        for (int i = 200; i < 2900; i += 100) {
-            gc.strokeLine(i, 100, i, 2900);
-            gc.strokeLine(100, i, 2900, i);
+        gc.strokeRect(this.CELLSIZE,this.CELLSIZE,(this.SIZE-(2*this.CELLSIZE)),(this.SIZE-(2*this.CELLSIZE)));
+        gc.fillRect(this.CELLSIZE, this.CELLSIZE, (this.SIZE-(2*CELLSIZE)), (this.SIZE-(2*CELLSIZE)));
+        for (int i = (2*this.CELLSIZE); i < (this.SIZE-(this.CELLSIZE)); i += this.CELLSIZE) {
+            gc.strokeLine(i, this.CELLSIZE, i, (this.SIZE-this.CELLSIZE));
+            gc.strokeLine(this.CELLSIZE, i, (this.SIZE-this.CELLSIZE), i);
         }
 
         this.initRooms(gc);
     }
 
-    public void initRooms(GraphicsContext gc) {
+    public void initRooms(GraphicsContext gc)
+    {
         int i = 0;
         for (Tuple[] cod : this.cods) {
             this.rooms[i] = new Room(this.cols[i], cod , cod.length, this, gc);
             this.rooms[i].draw();
             i++;
         }
+    }
+
+    public int getCellSize()
+    {
+        return this.CELLSIZE;
     }
 }

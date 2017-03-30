@@ -12,16 +12,17 @@ public class Game {
     private Board board;
 
     public Game(Stage primaryStage) {
+        int SIZE = 1500;
         ScrollPane pane = new ScrollPane();
-        Canvas canvas = new Canvas(3000, 3000);
+        Canvas canvas = new Canvas(SIZE, SIZE);
         pane.setContent( canvas );
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         primaryStage.setTitle("Prison Break!");
-        Scene scene = new Scene(pane, 3000,3000);
+        Scene scene = new Scene(pane, SIZE, SIZE);
         primaryStage.setScene(scene);
         primaryStage.show();
-        this.board = new Board(this, canvas);
+        this.board = new Board(this, canvas, SIZE);
     }
 
     public Board getBoard() {

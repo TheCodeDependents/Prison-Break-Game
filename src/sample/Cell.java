@@ -8,6 +8,7 @@ public class Cell {
 
     private int col;
     private int row;
+    private boolean isOccupied;
 
     public Cell(int r, int c) {
         this.row = r;

@@ -15,6 +15,9 @@ public class Room {
     private int width;
     private Board board;
     private GraphicsContext gc;
+    private boolean hasItem;
+    private String itemName;
+
 
 
     public Room(String color, Tuple[] coordinates, int size, Board b, GraphicsContext gc){
@@ -32,12 +35,13 @@ public class Room {
         gc.setStroke(Color.web(this.color));
         gc.setLineWidth(this.width);
         gc.setLineJoin(StrokeLineJoin.MITER);
+        int sz = this.board.getCellSize();
         for (int i = 0; i < this.coordinates.length; i++) {
-            int x = (this.coordinates[i].getX()*100)+100;
-            int y = (this.coordinates[i].getY()*100)+100;
+            int x = (this.coordinates[i].getX()*sz) + sz;
+            int y = (this.coordinates[i].getY()*sz) + sz;
             if (i == 0) {
-                int x2 = (this.coordinates[i+1].getX()*100) + 100;
-                int y2 = (this.coordinates[i+1].getY()*100) + 100;
+                int x2 = (this.coordinates[i+1].getX()*sz) + sz;
+                int y2 = (this.coordinates[i+1].getY()*sz) + sz;
                 if (x2 > x) x += this.width/2;
                 else if (x2 < x) x -= this.width/2;
                 else if (y2 > y) y += this.width/2;
@@ -49,16 +53,16 @@ public class Room {
                 makedoor = 1;
                 gc.stroke();
             } else if (this.coordinates.length == (i+1)) {
-                int x2 = (this.coordinates[i-1].getX()*100) + 100;
-                int y2 = (this.coordinates[i-1].getY()*100) + 100;
+                int x2 = (this.coordinates[i-1].getX()*sz) + sz;
+                int y2 = (this.coordinates[i-1].getY()*sz) + sz;
                 if (x2 > x) x += this.width/2;
                 else if (x2 < x) x -= this.width/2;
                 else if (y2 > y) y += this.width/2;
                 else y -= this.width/2;
                 gc.lineTo(x, y);
             } else if (makedoor == 1) {
-                int x2 = (this.coordinates[i+1].getX()*100) + 100;
-                int y2 = (this.coordinates[i+1].getY()*100) + 100;
+                int x2 = (this.coordinates[i+1].getX()*sz) + sz;
+                int y2 = (this.coordinates[i+1].getY()*sz) + sz;
                 if (x2 > x) x += this.width/2;
                 else if (x2 < x) x -= this.width/2;
                 else if (y2 > y) y += this.width/2;
@@ -69,8 +73,8 @@ public class Room {
             } else {
                 if (this.coordinates[i].getX() == this.coordinates[i + 1].getX() &&
                         this.coordinates[i].getY() == this.coordinates[i + 1].getY()) {
-                    int x2 = (this.coordinates[i-1].getX() * 100) + 100;
-                    int y2 = (this.coordinates[i-1].getY() * 100) + 100;
+                    int x2 = (this.coordinates[i-1].getX() * sz) + sz;
+                    int y2 = (this.coordinates[i-1].getY() * sz) + sz;
                     if (x2 > x) x += this.width / 2;
                     else if (x2 < x) x -= this.width / 2;
                     else if (y2 > y) y += this.width / 2;
