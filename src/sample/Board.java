@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 
 /**
  * Created by Erik on 3/22/2017.
+ * Edited by Steven on 3/30/2017.
  */
 public class Board {
 
@@ -16,24 +17,48 @@ public class Board {
     private int CELLSIZE;
 
     // Room colors
-    private String[] cols = {"FF0000", "0000FF", "00FF00", "FF00FF", "000000"};
+    private String[] cols = {"FF0000", "FFFFFF", "0000FF", "1a690e", "00FFFF", "00FF00",
+            "FF00FF", "78078d", "000000"};
     // Room critical coordinates
     private Tuple[][] cods = {
-        new Tuple[]{new Tuple(5,0), new Tuple(5,3), new Tuple(5,3),
-                    new Tuple(5,4), new Tuple(5,6), new Tuple(3,6),
-                    new Tuple(3,7), new Tuple(0,7)},
-        new Tuple[]{new Tuple(24,0), new Tuple(24,5), new Tuple(25,5),
+        // Red Room
+        new Tuple[]{new Tuple(7,0), new Tuple(7,3), new Tuple(7,3),
+                    new Tuple(7,4), new Tuple(7,7), new Tuple(0,7)},
+        // White Room
+        new Tuple[]{new Tuple(10,0), new Tuple(10,5), new Tuple(11,5),
+                    new Tuple(11,5), new Tuple(12,5), new Tuple(16,5),
+                    new Tuple(16,5), new Tuple(17,5), new Tuple(18,5),
+                    new Tuple(18,0),},
+        // Blue Room
+        new Tuple[]{new Tuple(20,0), new Tuple(20,5), new Tuple(25,5),
                     new Tuple(25,5), new Tuple(26,5), new Tuple(28,5)},
-        new Tuple[]{new Tuple(0,23), new Tuple(2,23), new Tuple(2,24),
-                    new Tuple(3,24), new Tuple(3,24), new Tuple(4,24),
-                    new Tuple(5,24), new Tuple(5,23), new Tuple(6,23),
-                    new Tuple(6,26), new Tuple(6,26), new Tuple(6,27),
-                    new Tuple(6,28)},
-        new Tuple[]{new Tuple(24,28), new Tuple(24,24), new Tuple(25,24),
-                    new Tuple(25,24), new Tuple(26,24), new Tuple(28,24)},
-        new Tuple[]{new Tuple(13,13), new Tuple(14,13), new Tuple(14,13),
-                    new Tuple(15,13), new Tuple(17,13), new Tuple(17,17),
-                    new Tuple(13,17), new Tuple(13,13), new Tuple(14,13)}
+        // Dark Green Room
+        new Tuple[]{new Tuple(0,9), new Tuple(2,9), new Tuple(2,9),
+                    new Tuple(3,9), new Tuple(7,9), new Tuple(7,15),
+                    new Tuple(7,15), new Tuple(7,16), new Tuple(7,19),
+                    new Tuple(0,19),},
+        // Light Blue Room
+        new Tuple[]{new Tuple(28,7), new Tuple(21,7), new Tuple(21,10),
+                    new Tuple(21,10), new Tuple(21,11), new Tuple(21,17),
+                    new Tuple(23,17), new Tuple(23,17), new Tuple(24,17),
+                    new Tuple(28,17),},
+        // Green Room
+        new Tuple[]{new Tuple(0,21), new Tuple(5,21), new Tuple(5,21),
+                    new Tuple(6,21), new Tuple(7,21), new Tuple(8,21),
+                    new Tuple(8,24), new Tuple(8,24), new Tuple(8,25),
+                    new Tuple(8,28)},
+        // Pink Room
+        new Tuple[]{new Tuple(24,28), new Tuple(24,19), new Tuple(25,19),
+                    new Tuple(25,19), new Tuple(26,19), new Tuple(28,19)},
+        // Purple Room
+        new Tuple[]{new Tuple(10,28), new Tuple(10,26), new Tuple(10,26),
+                    new Tuple(10,25), new Tuple(10,22), new Tuple(15,22),
+                    new Tuple(15,22), new Tuple(17,22), new Tuple(22,22),
+                    new Tuple(22,23), new Tuple(22,23), new Tuple(22,24),
+                    new Tuple(22,28)},
+        // The Hole
+        new Tuple[]{new Tuple(13,12), new Tuple(12,12), new Tuple(12,16),
+                    new Tuple(16,16), new Tuple(16,12), new Tuple(14,12),}
     };
     private Room[] rooms = new Room[10];
 
