@@ -75,7 +75,7 @@ public class Board {
 
         for (int i = 0; i < 28; i++) {
             for (int j = 0; j < 28; j++) {
-                this.cell[i][j] = new Cell(i, j);
+                this.cell[i][j] = new Cell(i, j, this.CELLSIZE, canvas.getGraphicsContext2D());
             }
         }
 
@@ -93,13 +93,21 @@ public class Board {
 
     public Canvas getCanvas() { return this.canvas; }
 
+    public void highlightAllLegalCells() {
+        for (int i = 0; i < 28; i++) {
+            for (int j = 0; j < 28; j++) {
+                if (this.cell[i][j].getStatus()) this.cell[i][j].highlight();
+            }
+        }
+    }
+
     public void draw(Canvas canvas)
     {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         gc.setFill(Color.ORANGE);
         gc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
-        gc.setFill(Color.YELLOW);
+        gc.setFill(Color.web("FFFF00"));
         gc.setStroke(Color.GREY);
         gc.setLineWidth(1);
         gc.strokeRect(this.CELLSIZE,this.CELLSIZE,(this.SIZE-(2*this.CELLSIZE)),(this.SIZE-(2*this.CELLSIZE)));

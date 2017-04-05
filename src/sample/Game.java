@@ -32,6 +32,7 @@ public class Game {
         primaryStage.setScene(scene);
         primaryStage.show();
         this.board = new Board(this, canvas, SIZE);
+
     }
 
     public Board getBoard() {
