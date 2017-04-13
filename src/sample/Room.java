@@ -15,18 +15,20 @@ public class Room {
     private int width;
     private Board board;
     private GraphicsContext gc;
+    private int index;
     private boolean hasItem;
     private String itemName;
 
 
 
-    public Room(String color, Tuple[] coordinates, int size, Board b, GraphicsContext gc){
+    public Room(int index, String color, Tuple[] coordinates, int size, Board b, GraphicsContext gc){
         this.color = color;
         this.coordinates = new Tuple[size];
         this.coordinates = coordinates;
         this.width = 8;
         this.board = b;
         this.gc = gc;
+        this.index = index;
     }
 
     public void draw(){
@@ -83,6 +85,27 @@ public class Room {
                 gc.lineTo(x, y);
             }
             gc.stroke();
+        }
+    }
+
+    public void setCellNumbers() {
+        int bot;
+        int top = bot = this.coordinates[0].getY();
+        for (Tuple t : this.coordinates) {
+            bot = (t.getY() > bot) ? t.getY() : bot;
+            top = (t.getY() < top) ? t.getY() : top;
+        }
+
+        for (int i = top; i <= bot; i++) {
+                int low;
+                int high = low = this.coordinates[0].getX();
+            for (Tuple t : this.coordinates) {
+                low = (t.getX() < low) ? t.getX() : low;
+                high = (t.getX() > high) ? t.getX() : high;
+            }
+            for (int j = low; j <= high; j++) {
+                this.board.getCell(i, j).setRoom(this.index);
+            }
         }
     }
 }

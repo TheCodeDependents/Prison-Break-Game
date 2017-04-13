@@ -2,7 +2,9 @@ package sample;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.event.EventHandler;
 
 /**
  * Created by Erik on 3/22/2017.
@@ -61,6 +63,7 @@ public class Board {
                     new Tuple(16,16), new Tuple(16,12), new Tuple(14,12),}
     };
     private Room[] rooms = new Room[10];
+    public double x0, y0;
 
     public Board(Game game, Canvas canvas, int size) {
 
@@ -79,8 +82,32 @@ public class Board {
             }
         }
 
-        this.draw(canvas);
+        this.draw();
+        Player player = new Player(this, this.cell[11][9]);
+        player.draw();
+        Move mv = new Move(this, player);
+        mv.findLegalMoves(5);
+
+        //Creating the mouse event handler
+
+        canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>(){
+                    @Override
+                    public void handle(MouseEvent event) {
+                        x0 = event.getX();
+                        y0 = event.getY();
+                        handleClick(x0,y0, mv);
+                    }
+                });
+
+
         // Alert.display(test);
+    }
+
+    private void handleClick (double x0, double y0, Move mv) {
+        int row = (int)(y0/30.00 - 1.00);
+        int col = (int)(x0/30.00 - 1.00);
+        mv.makeMove(this.cell[row-1][col-1]);
     }
 
     public Cell getCell(int row, int col) {
@@ -93,17 +120,9 @@ public class Board {
 
     public Canvas getCanvas() { return this.canvas; }
 
-    public void highlightAllLegalCells() {
-        for (int i = 0; i < 28; i++) {
-            for (int j = 0; j < 28; j++) {
-                if (this.cell[i][j].getStatus()) this.cell[i][j].highlight();
-            }
-        }
-    }
-
-    public void draw(Canvas canvas)
+    public void draw()
     {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
         gc.setFill(Color.ORANGE);
         gc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
@@ -117,16 +136,28 @@ public class Board {
             gc.strokeLine(this.CELLSIZE, i, (this.SIZE-this.CELLSIZE), i);
         }
 
-        this.initRooms(gc);
+        this.initRooms();
     }
 
-    public void initRooms(GraphicsContext gc)
+    // Call each room's draw method
+    public void initRooms()
     {
+        GraphicsContext gc = this.canvas.getGraphicsContext2D();
+
         int i = 0;
         for (Tuple[] cod : this.cods) {
-            this.rooms[i] = new Room(this.cols[i], cod , cod.length, this, gc);
+            this.rooms[i] = new Room(i, this.cols[i], cod , cod.length, this, gc);
             this.rooms[i].draw();
             i++;
+        }
+    }
+
+    // Reset all board cells to be invalid, prior to new move
+    public void resetCells() {
+        for (int i = 0; i < 28; i++) {
+            for (int j = 0; j < 28; j++) {
+                this.cell[i][j].setInvalid();
+            }
         }
     }
 
@@ -134,4 +165,5 @@ public class Board {
     {
         return this.CELLSIZE;
     }
+
 }

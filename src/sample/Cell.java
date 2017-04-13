@@ -15,6 +15,7 @@ public class Cell {
     private GraphicsContext gc;
     private boolean isValid;
     private int size;
+    private int room;
 
     public Cell(int r, int c, int size, GraphicsContext gc) {
         this.row = r;
@@ -22,6 +23,7 @@ public class Cell {
         this.size = size;
         this.gc = gc;
         this.isValid = false;
+        this.room = 15;
     }
 
     public void setTrue() {
@@ -41,7 +43,6 @@ public class Cell {
         int y = this.size + (this.row * this.size);
         this.gc.setFill(Color.web("FFFF99"));
         this.gc.fillRect(x+2, y+2, (this.size-4), (this.size-4) );
-        // Alert.display("Highlighting " + this.row + " " + this.col );
     }
 
     public void unhighlight() {
@@ -59,4 +60,24 @@ public class Cell {
     public int getRow() {
         return this.row;
     }
+
+    public void setRoom(int r) {
+        this.room = r;
+    }
+
+    public int getRoom() {
+        return this.room;
+    }
+    public void setValid() {
+        this.isValid = true;
+    }
+
+    public void setInvalid() {
+        this.isValid = false;
+    }
+
+    public boolean isValid() {
+        return this.isValid;
+    }
+
 }
