@@ -105,8 +105,9 @@ public class Board {
     }
 
     private void handleClick (double x0, double y0, Move mv) {
-        int row = (int)(y0/30.00 - 1.00);
-        int col = (int)(x0/30.00 - 1.00);
+        int row = (int)(y0/this.CELLSIZE);
+        int col = (int)(x0/this.CELLSIZE);
+        //Alert.display("col:" + col + "      row:" + row);
         mv.makeMove(this.cell[row-1][col-1]);
     }
 

@@ -2,6 +2,8 @@ package sample;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
+import java.util.Random;
+
 
 /**
  * Created by Erik on 4/10/2017.
@@ -35,13 +37,24 @@ public class Move {
         this.board.initRooms();
     }
 
+    // Will generate and return an int
+    // representing how far a piece can move
+    // Returns: int
+    public int rollDice() {
+        Random rand = new Random();
+        int die1 = rand.nextInt(6) + 1;
+        int die2 = rand.nextInt(6) + 1;
+        int sum = die1 + die2;
+        return sum;
+    }
+
     public void makeMove(Cell c) {
         if (c.isValid()) {
             this.player.setCell(c);
             this.board.draw();
-            this.player.draw();
             this.board.resetCells();
-            this.findLegalMoves(5);
+            this.findLegalMoves(this.rollDice());
+            this.player.draw();
         }
     }
 

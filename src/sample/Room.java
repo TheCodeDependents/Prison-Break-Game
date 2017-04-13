@@ -29,6 +29,7 @@ public class Room {
         this.board = b;
         this.gc = gc;
         this.index = index;
+        this.setCellNumbers();
     }
 
     public void draw(){
@@ -96,14 +97,15 @@ public class Room {
             top = (t.getY() < top) ? t.getY() : top;
         }
 
-        for (int i = top; i <= bot; i++) {
+        for (int i = top; i < bot; i++) {
                 int low;
                 int high = low = this.coordinates[0].getX();
             for (Tuple t : this.coordinates) {
                 low = (t.getX() < low) ? t.getX() : low;
                 high = (t.getX() > high) ? t.getX() : high;
             }
-            for (int j = low; j <= high; j++) {
+            for (int j = low; j < high; j++) {
+                //Alert.display("i:" + i + "      j:" + j);
                 this.board.getCell(i, j).setRoom(this.index);
             }
         }
