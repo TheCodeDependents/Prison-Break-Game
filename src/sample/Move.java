@@ -12,18 +12,24 @@ public class Move {
     private Board board;
     private Player player;
     private Cell move;
+    private int dieRoll;
 
     public Move(Board board, Player player) {
         this.board = board;
         this.player = player;
-
+        this.dieRoll = rollDice();
+        this.findLegalMoves(this.dieRoll);
     }
+
+
 
     public void findLegalMoves(int num) {
         int x = (this.player.getCell().getCol());
         int y = (this.player.getCell().getRow());
         int top = ((y - num) < 0) ? (num%2 == y%2) ? 0 : 1 : (y - num);
         int bot = ((y + num) > 28) ? (num%2 == ((28-y)%2)) ? 28 : 27 : (y + num);
+
+        this.board.resetCells();
 
         for (int i = top; i <= bot; i++) {
             int diff = (num - Math.abs(y - i));
@@ -35,6 +41,7 @@ public class Move {
             }
         }
         this.board.initRooms();
+        this.board.redrawPlayers();
     }
 
     // Will generate and return an int
@@ -48,14 +55,14 @@ public class Move {
         return sum;
     }
 
-    public void makeMove(Cell c) {
+    public boolean makeMove(Cell c) {
         if (c.isValid()) {
             this.player.setCell(c);
             this.board.draw();
-            this.board.resetCells();
-            this.findLegalMoves(this.rollDice());
             this.player.draw();
+            return true;
         }
+        return false;
     }
 
 }

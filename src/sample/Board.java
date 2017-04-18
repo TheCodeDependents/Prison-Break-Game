@@ -83,10 +83,6 @@ public class Board {
         }
 
         this.draw();
-        Player player = new Player(this, this.cell[11][9]);
-        player.draw();
-        Move mv = new Move(this, player);
-        mv.findLegalMoves(5);
 
         //Creating the mouse event handler
 
@@ -96,7 +92,7 @@ public class Board {
                     public void handle(MouseEvent event) {
                         x0 = event.getX();
                         y0 = event.getY();
-                        handleClick(x0,y0, mv);
+                        handleClick(x0,y0);
                     }
                 });
 
@@ -104,11 +100,12 @@ public class Board {
         // Alert.display(test);
     }
 
-    private void handleClick (double x0, double y0, Move mv) {
+    private void handleClick (double x0, double y0) {
         int row = (int)(y0/this.CELLSIZE);
         int col = (int)(x0/this.CELLSIZE);
         //Alert.display("col:" + col + "      row:" + row);
-        mv.makeMove(this.cell[row-1][col-1]);
+        boolean success = this.game.getCurrentMove().makeMove(this.cell[row-1][col-1]);
+        if (success) this.game.initNextMove();
     }
 
     public Cell getCell(int row, int col) {
@@ -150,6 +147,12 @@ public class Board {
             this.rooms[i] = new Room(i, this.cols[i], cod , cod.length, this, gc);
             this.rooms[i].draw();
             i++;
+        }
+    }
+
+    public void redrawPlayers() {
+        for (int i = 0; i < this.game.getNumPlayers(); i++) {
+            this.game.getPlayer(i).draw();
         }
     }
 

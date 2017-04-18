@@ -11,6 +11,11 @@ import javafx.stage.Stage;
  */
 public class Game {
     private Board board;
+    private Player[] player;
+    private int activePlayer;
+    private boolean playerReady;
+    private int numPlayers;
+    private Move currentMove;
 
     public Game(Stage primaryStage) {
         int SIZE = 1200;
@@ -33,9 +38,44 @@ public class Game {
         primaryStage.show();
         this.board = new Board(this, canvas, SIZE);
 
+        this.numPlayers = 4;
+        this.activePlayer = 0;
+
+        this.player = new Player[this.numPlayers];
+        for (int i = 0; i < this.numPlayers; i++) {
+            this.player[i] = new Player(this.board, this.board.getCell(11,9 + i), i);
+            this.player[i].draw();
+        }
+
+        this.playerReady = true;
+        this.currentMove = new Move(this.board, this.player[0]);
+    }
+
+    public void initNextMove() {
+        this.board.draw();
+        for (int i = 0; i < this.numPlayers; i++) {
+            this.player[i].draw();
+        }
+        this.activePlayer = (this.activePlayer + 1)%this.numPlayers;
+        this.currentMove = new Move(this.board, this.player[this.activePlayer]);
     }
 
     public Board getBoard() {
         return this.board;
+    }
+
+    public void setCurrentMove(Move m) {
+        this.currentMove = m;
+    }
+    public Move getCurrentMove() {
+        return this.currentMove;
+    }
+
+    public int getNumPlayers() {
+        return this.numPlayers;
+    }
+
+    public Player getPlayer(int num) {
+        return this.player[num];
     }
 }
