@@ -110,4 +110,8 @@ public class Room {
             }
         }
     }
+
+    public void setLineWidth(int i) {
+        this.width = i;
+    }
 }

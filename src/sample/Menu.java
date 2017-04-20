@@ -5,13 +5,13 @@ package sample;
  */
 public class Menu {
 
-    private Tuple position;
+    private Tuple position;    // this is where we want to store the upper left hand corner
     private Game game;
     private boolean isOpen;
 
     public Menu (Game game){
         this.game = game;
-        this.isOpen = false;
+        this.isOpen = true;
     }
 
     public void draw() {

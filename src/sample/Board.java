@@ -2,9 +2,12 @@ package sample;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.event.EventHandler;
+
+import java.util.Timer;
 
 /**
  * Created by Erik on 3/22/2017.
@@ -17,6 +20,7 @@ public class Board {
     private Canvas canvas;
     private int SIZE;
     private int CELLSIZE;
+    private Cell[] playerStartCells;
 
     // Room colors
     private String[] cols = {"FF0000", "FFFFFF", "0000FF", "1a690e", "00FFFF", "00FF00",
@@ -64,6 +68,7 @@ public class Board {
     };
     private Room[] rooms = new Room[10];
     public double x0, y0;
+    static Timer timer = new Timer();
 
     public Board(Game game, Canvas canvas, int size) {
 
@@ -82,10 +87,16 @@ public class Board {
             }
         }
 
+        this.playerStartCells = new Cell[this.game.getNumPlayers()];
+        for (int j = 0; j < this.game.getNumPlayers(); j++) {
+            int row = 10 + ((j%2)*8);         // Position game pieces
+            int col = 10 + ( (j > 1) ? 8 : 0 );    // in start squares
+            this.playerStartCells[j] = new Cell (row, col, this.CELLSIZE, canvas.getGraphicsContext2D());
+        }
+
         this.draw();
 
         //Creating the mouse event handler
-
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>(){
                     @Override
@@ -109,7 +120,16 @@ public class Board {
     }
 
     public Cell getCell(int row, int col) {
-        return this.cell[row][col];
+        try {
+            return this.cell[row][col];
+        } catch(Error e) {
+            System.out.println("Err:   " + row + "  " + col);
+        }
+        return null;
+    }
+
+    public Cell getPlayerStartCell(int i) {
+        return this.playerStartCells[i];
     }
 
     public Game getGame() {
@@ -122,9 +142,10 @@ public class Board {
     {
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
-        gc.setFill(Color.ORANGE);
-        gc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
-        gc.setFill(Color.web("FFFF00"));
+        //gc.setFill(Color.ORANGE);
+        //gc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
+        gc.drawImage(new Image("/img/concrete.jpg"), 0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setFill(Color.rgb(255,255,0,0.5));
         gc.setStroke(Color.GREY);
         gc.setLineWidth(1);
         gc.strokeRect(this.CELLSIZE,this.CELLSIZE,(this.SIZE-(2*this.CELLSIZE)),(this.SIZE-(2*this.CELLSIZE)));
@@ -154,6 +175,10 @@ public class Board {
         for (int i = 0; i < this.game.getNumPlayers(); i++) {
             this.game.getPlayer(i).draw();
         }
+    }
+
+    public void pulsePlayer() {
+
     }
 
     // Reset all board cells to be invalid, prior to new move

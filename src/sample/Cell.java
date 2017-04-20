@@ -41,7 +41,7 @@ public class Cell {
     public void highlight() {
         int x = this.size + (this.col * this.size);
         int y = this.size + (this.row * this.size);
-        this.gc.setFill(Color.web("FFFF99"));
+        this.gc.setFill(Color.rgb(255,255,153,0.5));
         this.gc.fillRect(x+2, y+2, (this.size-4), (this.size-4) );
     }
 
