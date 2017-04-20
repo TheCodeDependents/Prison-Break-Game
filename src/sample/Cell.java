@@ -16,6 +16,7 @@ public class Cell {
     private boolean isValid;
     private int size;
     private int room;
+    private boolean isEntry;
 
     public Cell(int r, int c, int size, GraphicsContext gc) {
         this.row = r;
@@ -24,6 +25,15 @@ public class Cell {
         this.gc = gc;
         this.isValid = false;
         this.room = 15;
+        this.isEntry = false;
+    }
+
+    public void setEntryTrue(){
+        this.isEntry = true;
+    }
+
+    public boolean getEntry(){
+        return this.isEntry;
     }
 
     public void setTrue() {

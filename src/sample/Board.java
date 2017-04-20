@@ -95,7 +95,6 @@ public class Board {
         }
 
         this.draw();
-
         //Creating the mouse event handler
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>(){
@@ -117,6 +116,50 @@ public class Board {
         //Alert.display("col:" + col + "      row:" + row);
         boolean success = this.game.getCurrentMove().makeMove(this.cell[row-1][col-1]);
         if (success) this.game.initNextMove();
+    }
+
+    public void openDoor(){
+        //Room 1
+        cell[3][6].setEntryTrue();
+        cell[3][7].setEntryTrue();
+        //Room 2
+        cell[4][11].setEntryTrue();
+        cell[5][11].setEntryTrue();
+        cell[4][16].setEntryTrue();
+        cell[5][16].setEntryTrue();
+        //Room 3
+        cell[5][25].setEntryTrue();
+        cell[4][25].setEntryTrue();
+        //Room 4
+        cell[15][6].setEntryTrue();
+        cell[15][7].setEntryTrue();
+        cell[8][2].setEntryTrue();
+        cell[9][2].setEntryTrue();
+        //Room 5
+        cell[20][5].setEntryTrue();
+        cell[21][5].setEntryTrue();
+        cell[24][7].setEntryTrue();
+        cell[24][8].setEntryTrue();
+        //Room 6
+        cell[21][15].setEntryTrue();
+        cell[22][15].setEntryTrue();
+        cell[21][16].setEntryTrue();
+        cell[22][16].setEntryTrue();
+        cell[25][9].setEntryTrue();
+        cell[25][10].setEntryTrue();
+        cell[23][21].setEntryTrue();
+        cell[23][22].setEntryTrue();
+        //Room 7
+        cell[18][25].setEntryTrue();
+        cell[19][25].setEntryTrue();
+        //Room 8
+        cell[10][20].setEntryTrue();
+        cell[10][21].setEntryTrue();
+        cell[16][23].setEntryTrue();
+        cell[17][23].setEntryTrue();
+        //Room 9
+        cell[11][13].setEntryTrue();
+        cell[12][13].setEntryTrue();
     }
 
     public Cell getCell(int row, int col) {
@@ -154,8 +197,9 @@ public class Board {
             gc.strokeLine(i, this.CELLSIZE, i, (this.SIZE-this.CELLSIZE));
             gc.strokeLine(this.CELLSIZE, i, (this.SIZE-this.CELLSIZE), i);
         }
-
         this.initRooms();
+        gc.setFill(Color.GREY);
+        gc.fillRect(1240,40,300,1120);
     }
 
     // Call each room's draw method
