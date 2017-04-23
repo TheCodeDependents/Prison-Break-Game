@@ -23,11 +23,7 @@ public class Game {
         this.SIZE = 1200;
         // Scroll pane and canvas for game board
         ScrollPane pane = new ScrollPane();
-
-        //JZ
-        //Canvas canvas = new Canvas(SIZE, SIZE);
-        Canvas canvas = new Canvas(1600,SIZE);
-
+        Canvas canvas = new Canvas(1200, 1550);
         pane.setContent( canvas );
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
@@ -88,3 +84,4 @@ public class Game {
         return this.player[num];
     }
 }
+

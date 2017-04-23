@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.event.EventHandler;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.util.Timer;
 
@@ -198,8 +200,46 @@ public class Board {
             gc.strokeLine(this.CELLSIZE, i, (this.SIZE-this.CELLSIZE), i);
         }
         this.initRooms();
+
         gc.setFill(Color.GREY);
         gc.fillRect(1240,40,300,1120);
+
+        gc.setFill(Color.BLUE);
+        gc.fillRect(40, 1200, 1120, 275);
+
+        gc.setFill(Color.GREY);
+        gc.setLineWidth(1);
+        gc.setFont(Font.font ("Verdana", 50));
+        gc.fillText("Players", 53, 1240);
+        gc.fillText("Dice Roll", 565, 1240);
+        gc.fillText("Options", 933, 1240);
+
+        gc.setFill(Color.BLACK);
+        gc.fillText("Player 1", 40, 1295);
+        gc.fillText("Player 2", 40, 1350);
+        gc.fillText("Player 3", 40, 1405);
+        gc.fillText("Player 4", 40, 1460);
+
+        // Borders
+        gc.setLineWidth(4);
+        // Horizontal
+        gc.strokeLine(42,1255,1158,1255);
+        // Vertical
+        gc.strokeLine(250,1202,250,1473);
+        gc.strokeLine(450,1202,450,1473);
+        gc.strokeLine(900,1202,900,1473);
+
+        // Vertical menu lines
+        gc.setLineWidth(1);
+        gc.strokeLine(300,1201,300,1474);
+        gc.strokeLine(350,1201,350,1474);
+        gc.strokeLine(400,1201,400,1474);
+
+        // Horizontal menu lines
+        gc.strokeLine(41,1310,449,1310);
+        gc.strokeLine(41,1365,449,1365);
+        gc.strokeLine(41,1420,449,1420);
+
     }
 
     // Call each room's draw method
