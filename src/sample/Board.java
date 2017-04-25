@@ -23,6 +23,7 @@ public class Board {
     private int SIZE;
     private int CELLSIZE;
     private Cell[] playerStartCells;
+    private Menu menu;
 
     // Room colors
     private String[] cols = {"FF0000", "FFFFFF", "0000FF", "1a690e", "00FFFF", "00FF00",
@@ -68,7 +69,7 @@ public class Board {
         new Tuple[]{new Tuple(13,12), new Tuple(12,12), new Tuple(12,16),
                     new Tuple(16,16), new Tuple(16,12), new Tuple(14,12),}
     };
-    private Room[] rooms = new Room[10];
+    private Room[] rooms = new Room[9];
     public double x0, y0;
     static Timer timer = new Timer();
 
@@ -96,7 +97,15 @@ public class Board {
             this.playerStartCells[j] = new Cell (row, col, this.CELLSIZE, canvas.getGraphicsContext2D());
         }
 
+        // draw board
         this.draw();
+
+        // Init and draw rooms
+        this.initRooms();
+
+        //Init and draw menu
+       // this.menu = new Menu(this.game, this.canvas.getGraphicsContext2D());
+
         //Creating the mouse event handler
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>(){
@@ -106,10 +115,9 @@ public class Board {
                         y0 = event.getY();
                         handleClick(x0,y0);
                     }
-                });
+                }
+        );
 
-
-        // Alert.display(test);
     }
 
     private void handleClick (double x0, double y0) {
@@ -183,6 +191,7 @@ public class Board {
 
     public Canvas getCanvas() { return this.canvas; }
 
+    // Draw everything visible
     public void draw()
     {
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
@@ -199,6 +208,7 @@ public class Board {
             gc.strokeLine(i, this.CELLSIZE, i, (this.SIZE-this.CELLSIZE));
             gc.strokeLine(this.CELLSIZE, i, (this.SIZE-this.CELLSIZE), i);
         }
+
         this.initRooms();
 
         gc.setFill(Color.GREY);
@@ -274,9 +284,51 @@ public class Board {
         }
     }
 
+    public Menu getMenu() {return this.menu;}
+
     public int getCellSize()
     {
         return this.CELLSIZE;
+    }
+
+    public void refreshAll() {
+        this.draw();
+        for (int i = 0; i < 28; i++) {
+            for (int j = 0; j < 28; j++) {
+                if (this.cell[i][j].isValid()) this.cell[i][j].highlight();
+            }
+        }
+        for (int x = 0; x < 9; x++) {
+            this.rooms[x].draw();
+        }
+        this.redrawPlayers();
+        this.menu.draw();
+    }
+
+    public int renderDice(int num1, int num2) {
+        //Alert.display("hhhh");
+
+        int result = 0;
+        GraphicsContext gc = this.canvas.getGraphicsContext2D();
+
+
+        int row = (num1 > 3) ? 1 : 0;
+        int col = (num1%3 == 0) ? 2 : ((num1 == 2) || (num1 == 5)) ? 1 : 0;
+        int xpos = (col*40);
+        int ypos = row*40;
+        gc.drawImage(new Image("/img/dice.png"), xpos, ypos, 40, 40,
+                600, 1300, 70, 70);
+        result += num1;
+
+        row = (num2 > 3) ? 1 : 0;
+        col = (num2%3 == 0) ? 2 : ((num2 == 2) || (num2 == 5)) ? 1 : 0;
+        xpos = (col*40);
+        ypos = row*40;
+        gc.drawImage(new Image("/img/dice.png"), xpos, ypos, 40, 40,
+                700, 1300, 70, 70);
+        result += num2;
+
+        return result;
     }
 
 }

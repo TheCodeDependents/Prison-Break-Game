@@ -3,6 +3,8 @@ package sample;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -14,11 +16,13 @@ public class Move {
     private Cell move;
     private int dieRoll;
 
+    Timer timer;
+    TimerTask roll;
+
     public Move(Board board, Player player) {
         this.board = board;
         this.player = player;
         this.dieRoll = rollDice();
-        //this.findLegalMoves(this.dieRoll);
         this.board.resetCells();
         this.board.openDoor();
         this.mark2(this.player.getCell().getRow(),this.player.getCell().getCol(),this.dieRoll,0);
@@ -92,37 +96,25 @@ public class Move {
         }
     }
 
-    public void findLegalMoves(int num) {
-        int x = (this.player.getCell().getCol());
-        int y = (this.player.getCell().getRow());
-        int top = ((y - num) < 0) ? (num%2 == y%2) ? 0 : 1 : (y - num);
-        int bot = ((y + num) > 28) ? (num%2 == ((28-y)%2)) ? 28 : 27 : (y + num);
-
-        this.board.resetCells();
-
-        for (int i = top; i <= bot; i++) {
-            int diff = (num - Math.abs(y - i));
-            for (int j = (x - diff); j <= (x + diff); j += 2) {
-                if (this.player.getRoom() == this.board.getCell(i, j).getRoom()) {
-                    this.board.getCell(i, j).highlight();
-                    this.board.getCell(i, j).setValid();
-                }
-            }
-        }
-        this.board.initRooms();
-        this.board.redrawPlayers();
-    }
-
     // Will generate and return an int
     // representing how far a piece can move
-    // Returns: int
     public int rollDice() {
+        int die1, die2, sum = 0;
+        timer = new Timer();
+
         Random rand = new Random();
-        int die1 = rand.nextInt(6) + 1;
-        int die2 = rand.nextInt(6) + 1;
-        int sum = die1 + die2;
+        int reps = 10 + rand.nextInt(8) + 1;;
+        for (int i = 0; i <= reps; i++) {
+                die1 = rand.nextInt(6) + 1;
+                //Alert.display("d1   " + die1);
+                die2 = rand.nextInt(6) + 1;
+                //Alert.display("d2   " + die2);
+                sum = die1 + die2;
+                timer.schedule(new Roll(this.board, die1, die2), i*150);
+        }
         return sum;
     }
+
 
     public boolean makeMove(Cell c) {
         if (c.isValid()) {
@@ -132,6 +124,25 @@ public class Move {
             return true;
         }
         return false;
+    }
+
+    class Roll extends TimerTask {
+        private final Board brd;
+        private final int d1;
+        private final int d2;
+
+        Roll(Board brd, int d1, int d2){
+            this.brd = brd;
+            this.d1 = d1;
+            this.d2 = d2;
+        }
+
+        @Override
+        public void run() {
+            this.brd.renderDice(this.d1, this.d2);
+            //timer.cancel();
+
+        }
     }
 
 }

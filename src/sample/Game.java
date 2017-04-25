@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -48,6 +49,12 @@ public class Game {
             this.player[i] = new Player(this.board, this.board.getPlayerStartCell(i), i);
             this.player[i].draw();
         }
+/*
+        pane.vvalueProperty().addListener(
+                (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+                    this.board.getMenu().setTop(newValue.intValue());
+                    this.board.refreshAll();
+                });*/
 
         this.playerReady = true;
         this.currentMove = new Move(this.board, this.player[0]);

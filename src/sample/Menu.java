@@ -6,6 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.event.EventHandler;
 
+
 /**
  * Created by Erik on 4/1/2017.
  */
@@ -14,7 +15,8 @@ public class Menu {
     private Tuple position;    // this is where we want to store the upper left hand corner
     private Game game;
     private boolean isOpen;
-
+    private GraphicsContext gc;
+    private int top;
     private Cell[][] cell;
     private Canvas menucanv;
     private int SIZE;
@@ -23,6 +25,9 @@ public class Menu {
     public Menu (Game game){
         this.game = game;
         this.isOpen = true;
+        // this.gc = gc;
+        this.top = 0;
+        this.draw();
     }
 
     public void draw() {
