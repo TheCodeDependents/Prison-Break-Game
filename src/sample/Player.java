@@ -24,7 +24,7 @@ public class Player {
         int y = (this.cell.getRow() * this.board.getCellSize()) + this.board.getCellSize();
         GraphicsContext gc = this.board.getCanvas().getGraphicsContext2D();
         int dim = this.id * 400;
-        gc.drawImage(new Image("/img/gpcs.png"), dim, 0, 400, 400,
+        gc.drawImage(new Image("/img/pcs.png"), dim, 0, 400, 400,
                 x, y, this.board.getCellSize(), this.board.getCellSize());
     }
 
