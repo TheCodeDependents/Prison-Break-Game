@@ -40,7 +40,8 @@ public class Move {
             if(moves%2 == block && !(this.board.getCell(r,c).getStatus())){
                 this.board.getCell(r,c).highlight();
                 this.board.getCell(r,c).setValid();
-            }if(r+1<28 && ((this.isRoomVisited(r+1,c)==this.isRoomVisited(r,c))|| this.board.getCell(r+1, c).getEntry())){
+            }
+            if(r+1<28 && ((this.isRoomVisited(r+1,c)==this.isRoomVisited(r,c))|| this.board.getCell(r+1, c).getEntry())){
                 this.mark2(r+1,c,roll,moves+1);
             }
             if(c-1>=0 && ((this.isRoomVisited(r,c-1)==this.isRoomVisited(r,c))|| this.board.getCell(r, c-1).getEntry())){

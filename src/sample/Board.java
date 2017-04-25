@@ -24,6 +24,8 @@ public class Board {
     private int CELLSIZE;
     private Cell[] playerStartCells;
     private Menu menu;
+    public Item[] item;
+    private Image[] image;
 
     // Room colors
     private String[] cols = {"FF0000", "FFFFFF", "0000FF", "1a690e", "00FFFF", "00FF00",
@@ -81,6 +83,9 @@ public class Board {
         this.rooms = new Room[10];
         this.SIZE = size;
         this.CELLSIZE = this.SIZE/30;
+        this.item = new Item[5];
+        this.image = new Image[5];
+
 
         String test = "Test Message";
 
@@ -88,6 +93,16 @@ public class Board {
             for (int j = 0; j < 28; j++) {
                 this.cell[i][j] = new Cell(i, j, this.CELLSIZE, canvas.getGraphicsContext2D());
             }
+        }
+
+        image[0] = new Image("/img/crowbar.png");
+        image[1] = new Image("/img/shovel.png");
+        image[2] = new Image("/img/grappling.png");
+        image[3] = new Image("/img/nailfiler.png");
+        image[4] = new Image("/img/knife.png");
+
+        for(int i =0; i < 5; i++){
+            item[i] = new Item(this,i,image[i]);
         }
 
         this.playerStartCells = new Cell[this.game.getNumPlayers()];
@@ -331,4 +346,39 @@ public class Board {
         return result;
     }
 
+    public int roomNumber(int r, int c){
+        if((r>=0 && r<=6)&&(c>=0 && c<=6)){
+            return 1;
+        }
+        if((r>=0 && r<=4) && (c>=10 && c<=17)){
+            return 2;
+        }
+        if(r>=0 && r<=4 && c>=20 && c<=27){
+            return 3;
+        }
+        if(r>=9 && r<=18 && c>=0 && c<=6){
+            return 4;
+        }
+        if(r>=12 && r<=15 && c>=12 && c<=15){
+            return 5;
+        }
+        if(r>=7 && r<=16 && c>=21 && c<=27){
+            return 6;
+        }
+        if(r>=21 && r<=27 && c>=0 && c<=7){
+            return 7;
+        }
+        if((r>=22 && r<=27) && (c>=10 && c<=21)){
+            return 8;
+        }
+        if(r>=19 && r<=27 && c>=24 && c<=27){
+            return 9;
+        }
+        if((r>=0 && r <28) && (c>=0 && c <28)){
+            return 10;
+        }
+        else{
+            return 11;
+        }
+    }
 }
