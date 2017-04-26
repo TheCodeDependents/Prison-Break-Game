@@ -25,7 +25,7 @@ public class Cell {
         this.size = size;
         this.gc = gc;
         this.isValid = false;
-        this.room = this.roomNumber(r,c);
+        this.room = 15;
         this.isEntry = false;
         this.hasItem = false;
     }
@@ -75,43 +75,6 @@ public class Cell {
         this.gc.setFill(Color.web("FFFF00"));
         this.gc.fillRect(x+2, y+2, (this.size-4), (this.size-4));
     }
-
-    public int roomNumber(int r, int c){
-        if((r>=0 && r<=6)&&(c>=0 && c<=6)){
-            return 1;
-        }
-        if((r>=0 && r<=4) && (c>=10 && c<=17)){
-            return 2;
-        }
-        if(r>=0 && r<=4 && c>=20 && c<=27){
-            return 3;
-        }
-        if(r>=9 && r<=18 && c>=0 && c<=6){
-            return 4;
-        }
-        if(r>=12 && r<=15 && c>=12 && c<=15){
-            return 5;
-        }
-        if(r>=7 && r<=16 && c>=21 && c<=27){
-            return 6;
-        }
-        if(r>=21 && r<=27 && c>=0 && c<=7){
-            return 7;
-        }
-        if((r>=22 && r<=27) && (c>=10 && c<=21)){
-            return 8;
-        }
-        if(r>=19 && r<=27 && c>=24 && c<=27){
-            return 9;
-        }
-        if((r>=0 && r <28) && (c>=0 && c <28)){
-            return 10;
-        }
-        else{
-            return 11;
-        }
-    }
-
 
     public int getCol() {
         return this.col;

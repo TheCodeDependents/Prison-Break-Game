@@ -10,14 +10,10 @@ import java.util.Random;
  */
 public class Item {
     private Board board;
-    private Image image;
-    private Random rgen;
-    private int row,col,id;
+    private int row, col, room, id;
 
-    public Item(Board board, int idn, Image image){
+    public Item(Board board, int idn){
         this.board = board;
-        this.rgen = new Random();
-        this.image = image;
         this.id = idn;
         this.generateItem();
     }
@@ -27,13 +23,34 @@ public class Item {
     }
 
     public void generateItem(){
-        this.row = (rgen.nextInt(28));
-        this.col = (rgen.nextInt(28));
-        while(board.getCell(row,col).getRoom() == 10){
-            this.row = (rgen.nextInt(28));
-            this.col = (rgen.nextInt(28));
+        Random rand = new Random();
+        this.room = rand.nextInt(9);
+        Alert.display("one");
+        Alert.display("----> " + room);
+        while (this.board.getRoom(this.room).hasItem()) {
+            Alert.display("two");
+            this.room = rand.nextInt(9);
         }
-        board.getCell(row,col).setItemTrue();
+
+        // Count number of cells
+        int count = 0;
+        for (int i = 0; i < 28; i++) {
+            for (int j = 0; j < 28; j++) {
+                if (this.board.getCell(i, j).getRoom() == room) count++;
+            }
+        }
+        int cell = rand.nextInt(count) + 1;
+        for (int i = 0; i < 28 && cell > 0; i++) {
+            for (int j = 0; j < 28 && cell > 0; j++) {
+                if (this.board.getCell(i, j).getRoom() == room) {
+                    this.row = i; this.col = j;
+                    cell--;
+                }
+            }
+        }
+
+        board.getCell(this.row, this.col).setItemTrue();
+        this.board.getRoom(room).toggleItem(true);
     }
 
     public Cell getItemCell(){
@@ -50,6 +67,13 @@ public class Item {
 
     public void draw(){
         GraphicsContext gc = this.board.getCanvas().getGraphicsContext2D();
-        gc.drawImage(this.image,(col * this.board.getCellSize()) + this.board.getCellSize(),(row * this.board.getCellSize()) + this.board.getCellSize(),this.board.getCellSize(),this.board.getCellSize());
+        gc.drawImage(new Image("/img/items.png"),
+                this.id * 40, 0, 40, 40,
+                (col * this.board.getCellSize()) + this.board.getCellSize(),
+                (row * this.board.getCellSize()) + this.board.getCellSize(),
+                this.board.getCellSize(),this.board.getCellSize());
+    }
+    public int getRoomNum() {
+        return this.room;
     }
 }

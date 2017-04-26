@@ -114,4 +114,11 @@ public class Room {
     public void setLineWidth(int i) {
         this.width = i;
     }
+
+    public void toggleItem(boolean hasItem) {
+        this.hasItem = hasItem;
+    }
+    public boolean hasItem() {
+        return this.hasItem;
+    }
 }

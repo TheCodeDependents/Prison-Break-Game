@@ -63,13 +63,16 @@ public class Game {
 
     public void initNextMove() {
         this.board.draw();
-        for(int j =0; j < 5; j++){
+        for(int j =0; j < 4; j++){
+            // Player collects item
             if((board.item[j].getCol() == this.player[this.activePlayer].getCol()) && (board.item[j].getRow() == this.player[this.activePlayer].getRow())){
                 board.item[j].getItemCell().setItemFalse();
+                board.getRoom(board.item[j].getRoomNum()).toggleItem(false);
                 board.item[j].generateItem();
                 this.player[this.activePlayer].setItem(j);
                 System.out.println();
             }
+
             for(int k = 0; k < 4; k++){
                 if(board.item[j].getItemCell().getRoom() == this.player[k].getCell().getRoom()){
                     board.item[j].draw();

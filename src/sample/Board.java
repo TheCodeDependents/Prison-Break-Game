@@ -25,7 +25,7 @@ public class Board {
     private Cell[] playerStartCells;
     private Menu menu;
     public Item[] item;
-    private Image[] image;
+    // private Image[] image;
 
     // Room colors
     private String[] cols = {"FF0000", "FFFFFF", "0000FF", "1a690e", "00FFFF", "00FF00",
@@ -83,26 +83,12 @@ public class Board {
         this.rooms = new Room[10];
         this.SIZE = size;
         this.CELLSIZE = this.SIZE/30;
-        this.item = new Item[5];
-        this.image = new Image[5];
-
-
-        String test = "Test Message";
+        this.item = new Item[4];
 
         for (int i = 0; i < 28; i++) {
             for (int j = 0; j < 28; j++) {
                 this.cell[i][j] = new Cell(i, j, this.CELLSIZE, canvas.getGraphicsContext2D());
             }
-        }
-
-        image[0] = new Image("/img/crowbar.png");
-        image[1] = new Image("/img/shovel.png");
-        image[2] = new Image("/img/grappling.png");
-        image[3] = new Image("/img/nailfiler.png");
-        image[4] = new Image("/img/knife.png");
-
-        for(int i =0; i < 5; i++){
-            item[i] = new Item(this,i,image[i]);
         }
 
         this.playerStartCells = new Cell[this.game.getNumPlayers()];
@@ -117,6 +103,11 @@ public class Board {
 
         // Init and draw rooms
         this.initRooms();
+
+        for(int i =0; i < 4; i++){
+            item[i] = new Item(this,i );
+        }
+
 
         //Init and draw menu
        // this.menu = new Menu(this.game, this.canvas.getGraphicsContext2D());
@@ -211,8 +202,7 @@ public class Board {
     {
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
-        //gc.setFill(Color.ORANGE);
-        //gc.fillRect(0,0,canvas.getWidth(),canvas.getHeight());
+        gc.clearRect( 0, 0, canvas.getWidth(), canvas.getHeight() );
         gc.drawImage(new Image("/img/concrete.jpg"), 0, 0, canvas.getWidth(), canvas.getHeight());
         gc.setFill(Color.rgb(255,255,0,0.5));
         gc.setStroke(Color.GREY);
@@ -306,6 +296,10 @@ public class Board {
         return this.CELLSIZE;
     }
 
+    public Room getRoom(int num) {
+        return this.rooms[num];
+    }
+
     public void refreshAll() {
         this.draw();
         for (int i = 0; i < 28; i++) {
@@ -321,8 +315,6 @@ public class Board {
     }
 
     public int renderDice(int num1, int num2) {
-        //Alert.display("hhhh");
-
         int result = 0;
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
