@@ -120,8 +120,6 @@ public class Move {
     public boolean makeMove(Cell c) {
         if (c.isValid()) {
             this.player.setCell(c);
-            this.board.draw();
-            this.player.draw();
             return true;
         }
         return false;

@@ -25,7 +25,6 @@ public class Board {
     private Cell[] playerStartCells;
     private Menu menu;
     public Item[] item;
-    // private Image[] image;
 
     // Room colors
     private String[] cols = {"FF0000", "FFFFFF", "0000FF", "1a690e", "00FFFF", "00FF00",
@@ -100,17 +99,15 @@ public class Board {
 
         // draw board
         this.draw();
-
         // Init and draw rooms
         this.initRooms();
-
+        // Init items later, since they have to know about the rooms and cells
         for(int i =0; i < 4; i++){
             item[i] = new Item(this,i );
         }
 
-
         //Init and draw menu
-       // this.menu = new Menu(this.game, this.canvas.getGraphicsContext2D());
+        this.menu = new Menu(this.game, this.canvas.getGraphicsContext2D());
 
         //Creating the mouse event handler
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
@@ -129,9 +126,10 @@ public class Board {
     private void handleClick (double x0, double y0) {
         int row = (int)(y0/this.CELLSIZE);
         int col = (int)(x0/this.CELLSIZE);
-        //Alert.display("col:" + col + "      row:" + row);
+        // Alert.display("col:" + col + "      row:" + row);
         boolean success = this.game.getCurrentMove().makeMove(this.cell[row-1][col-1]);
         if (success) this.game.initNextMove();
+        this.refreshAll();
     }
 
     public void openDoor(){
@@ -202,9 +200,12 @@ public class Board {
     {
         GraphicsContext gc = this.canvas.getGraphicsContext2D();
 
+        // Clear screen, add concrete backdrop
         gc.clearRect( 0, 0, canvas.getWidth(), canvas.getHeight() );
         gc.drawImage(new Image("/img/concrete.jpg"), 0, 0, canvas.getWidth(), canvas.getHeight());
-        gc.setFill(Color.rgb(255,255,0,0.5));
+
+        // Draw grid to screen
+        gc.setFill( Color.rgb(255,255,0,0.5) );
         gc.setStroke(Color.GREY);
         gc.setLineWidth(1);
         gc.strokeRect(this.CELLSIZE,this.CELLSIZE,(this.SIZE-(2*this.CELLSIZE)),(this.SIZE-(2*this.CELLSIZE)));
@@ -213,48 +214,6 @@ public class Board {
             gc.strokeLine(i, this.CELLSIZE, i, (this.SIZE-this.CELLSIZE));
             gc.strokeLine(this.CELLSIZE, i, (this.SIZE-this.CELLSIZE), i);
         }
-
-        this.initRooms();
-
-        gc.setFill(Color.GREY);
-        gc.fillRect(1240,40,300,1120);
-
-        gc.setFill(Color.BLUE);
-        gc.fillRect(40, 1200, 1120, 275);
-
-        gc.setFill(Color.GREY);
-        gc.setLineWidth(1);
-        gc.setFont(Font.font ("Verdana", 50));
-        gc.fillText("Players", 53, 1240);
-        gc.fillText("Dice Roll", 565, 1240);
-        gc.fillText("Options", 933, 1240);
-
-        gc.setFill(Color.BLACK);
-        gc.fillText("Player 1", 40, 1295);
-        gc.fillText("Player 2", 40, 1350);
-        gc.fillText("Player 3", 40, 1405);
-        gc.fillText("Player 4", 40, 1460);
-
-        // Borders
-        gc.setLineWidth(4);
-        // Horizontal
-        gc.strokeLine(42,1255,1158,1255);
-        // Vertical
-        gc.strokeLine(250,1202,250,1473);
-        gc.strokeLine(450,1202,450,1473);
-        gc.strokeLine(900,1202,900,1473);
-
-        // Vertical menu lines
-        gc.setLineWidth(1);
-        gc.strokeLine(300,1201,300,1474);
-        gc.strokeLine(350,1201,350,1474);
-        gc.strokeLine(400,1201,400,1474);
-
-        // Horizontal menu lines
-        gc.strokeLine(41,1310,449,1310);
-        gc.strokeLine(41,1365,449,1365);
-        gc.strokeLine(41,1420,449,1420);
-
     }
 
     // Call each room's draw method
@@ -309,6 +268,9 @@ public class Board {
         }
         for (int x = 0; x < 9; x++) {
             this.rooms[x].draw();
+        }
+        for(int k = 0; k < 4; k++){
+            if(this.item[k].isVisible()) this.item[k].draw();
         }
         this.redrawPlayers();
         this.menu.draw();

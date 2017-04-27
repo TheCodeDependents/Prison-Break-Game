@@ -17,9 +17,7 @@ public class Room {
     private GraphicsContext gc;
     private int index;
     private boolean hasItem;
-    private String itemName;
-
-
+    private boolean hasPlayer;
 
     public Room(int index, String color, Tuple[] coordinates, int size, Board b, GraphicsContext gc){
         this.color = color;
@@ -29,6 +27,7 @@ public class Room {
         this.board = b;
         this.gc = gc;
         this.index = index;
+        this.hasPlayer = false;
         this.setCellNumbers();
     }
 

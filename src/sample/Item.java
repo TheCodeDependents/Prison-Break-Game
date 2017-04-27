@@ -11,10 +11,12 @@ import java.util.Random;
 public class Item {
     private Board board;
     private int row, col, room, id;
+    private boolean visible;
 
     public Item(Board board, int idn){
         this.board = board;
         this.id = idn;
+        this.visible = false;
         this.generateItem();
     }
 
@@ -24,11 +26,12 @@ public class Item {
 
     public void generateItem(){
         Random rand = new Random();
+
+        // Randomly pick an empty room
         this.room = rand.nextInt(9);
-        Alert.display("one");
-        Alert.display("----> " + room);
+
+        // I SAID, an EMPTY room.
         while (this.board.getRoom(this.room).hasItem()) {
-            Alert.display("two");
             this.room = rand.nextInt(9);
         }
 
@@ -50,7 +53,7 @@ public class Item {
         }
 
         board.getCell(this.row, this.col).setItemTrue();
-        this.board.getRoom(room).toggleItem(true);
+        this.board.getRoom(this.room).toggleItem(true);
     }
 
     public Cell getItemCell(){
@@ -75,5 +78,14 @@ public class Item {
     }
     public int getRoomNum() {
         return this.room;
+    }
+    public void setVisible() {
+        this.visible = true;
+    }
+    public void setInvisible() {
+        this.visible = false;
+    }
+    public boolean isVisible() {
+        return this.visible;
     }
 }

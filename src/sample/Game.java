@@ -49,12 +49,6 @@ public class Game {
             this.player[i] = new Player(this.board, this.board.getPlayerStartCell(i), i);
             this.player[i].draw();
         }
-/*
-        pane.vvalueProperty().addListener(
-                (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-                    this.board.getMenu().setTop(newValue.intValue());
-                    this.board.refreshAll();
-                });*/
 
         this.playerReady = true;
         this.currentMove = new Move(this.board, this.player[0]);
@@ -64,28 +58,28 @@ public class Game {
     public void initNextMove() {
         this.board.draw();
         for(int j =0; j < 4; j++){
+
             // Player collects item
             if((board.item[j].getCol() == this.player[this.activePlayer].getCol()) && (board.item[j].getRow() == this.player[this.activePlayer].getRow())){
                 board.item[j].getItemCell().setItemFalse();
                 board.getRoom(board.item[j].getRoomNum()).toggleItem(false);
-                board.item[j].generateItem();
                 this.player[this.activePlayer].setItem(j);
-                System.out.println();
+                board.item[j].generateItem();
+                System.out.println("Player collects item " + j);
             }
 
-            for(int k = 0; k < 4; k++){
-                if(board.item[j].getItemCell().getRoom() == this.player[k].getCell().getRoom()){
-                    board.item[j].draw();
+            // Determine item visibility
+            board.item[j].setInvisible();
+            for(int k = 0; k < 4; k++) {
+                if (board.item[j].getItemCell().getRoom() == this.player[k].getCell().getRoom()) {
+                    board.item[j].setVisible();
                 }
             }
         }
-        for (int i = 0; i < this.numPlayers; i++) {
-            this.player[i].draw();
-        }
+
         this.activePlayer = (this.activePlayer + 1)%this.numPlayers;
         this.currentMove = new Move(this.board, this.player[this.activePlayer]);
         this.board.pulsePlayer();
-
     }
 
     public Board getBoard() {
