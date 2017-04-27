@@ -6,8 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.event.EventHandler;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 import java.util.Timer;
 
@@ -107,7 +105,7 @@ public class Board {
         }
 
         //Init and draw menu
-        this.menu = new Menu(this.game, this.canvas.getGraphicsContext2D());
+        this.menu = new Menu(this.game, this, this.canvas.getGraphicsContext2D());
 
         //Creating the mouse event handler
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
@@ -298,41 +296,5 @@ public class Board {
         result += num2;
 
         return result;
-    }
-
-    public int roomNumber(int r, int c){
-        if((r>=0 && r<=6)&&(c>=0 && c<=6)){
-            return 1;
-        }
-        if((r>=0 && r<=4) && (c>=10 && c<=17)){
-            return 2;
-        }
-        if(r>=0 && r<=4 && c>=20 && c<=27){
-            return 3;
-        }
-        if(r>=9 && r<=18 && c>=0 && c<=6){
-            return 4;
-        }
-        if(r>=12 && r<=15 && c>=12 && c<=15){
-            return 5;
-        }
-        if(r>=7 && r<=16 && c>=21 && c<=27){
-            return 6;
-        }
-        if(r>=21 && r<=27 && c>=0 && c<=7){
-            return 7;
-        }
-        if((r>=22 && r<=27) && (c>=10 && c<=21)){
-            return 8;
-        }
-        if(r>=19 && r<=27 && c>=24 && c<=27){
-            return 9;
-        }
-        if((r>=0 && r <28) && (c>=0 && c <28)){
-            return 10;
-        }
-        else{
-            return 11;
-        }
     }
 }

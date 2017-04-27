@@ -24,15 +24,15 @@ public class Game {
         this.SIZE = 1200;
         // Scroll pane and canvas for game board
         ScrollPane pane = new ScrollPane();
-        Canvas canvas = new Canvas(1200, 1550);
+        Canvas canvas = new Canvas(1200, 1600);
         pane.setContent( canvas );
         pane.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         pane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
         // Pane and canvas for game menu
-        Pane menu = new Pane();
-        Canvas menucanv = new Canvas(this.SIZE, this.SIZE/4);
-        menu.getChildren().add(menucanv);
+        //Pane menu = new Pane();
+        //Canvas menucanv = new Canvas(this.SIZE, this.SIZE/4);
+        // menu.getChildren().add(menucanv);
         // Bind the width/height property to the wrapper Pane
 
         primaryStage.setTitle("Prison Break!");
@@ -42,11 +42,13 @@ public class Game {
 
         this.numPlayers = 4;
         this.activePlayer = 0;
-        this.board = new Board(this, canvas, this.SIZE);
-
         this.player = new Player[this.numPlayers];
+        this.board = new Board(this, canvas, this.SIZE);
         for (int i = 0; i < this.numPlayers; i++) {
             this.player[i] = new Player(this.board, this.board.getPlayerStartCell(i), i);
+        }
+        this.board.getMenu().draw();
+        for (int i = 0; i < this.numPlayers; i++) {
             this.player[i].draw();
         }
 

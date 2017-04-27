@@ -11,19 +11,15 @@ public class Player {
     private Board board;
     private int room;
     private int id;
-    private boolean itemCrowbar,itemShovel,itemGrappling,itemNailfiler,itemKnife;
+    private boolean[] items;
 
     public Player (Board board, Cell cell, int id) {
         this.cell = cell;
         this.board = board;
         this.room = 15;
         this.id = id;
-        this.itemCrowbar = false;
-        this.itemShovel = false;
-        this.itemGrappling = false;
-        this.itemNailfiler = false;
-        this.itemKnife = false;
-
+        this.items = new boolean[4];
+        for (int i = 0; i < 4; i++) this.items[i] = false;
     }
 
     public void draw() {
@@ -56,44 +52,18 @@ public class Player {
     }
 
     public void setItem(int n){
-        if(n == 0){
-            itemCrowbar = true;
+        this.items[n] = true;
+    }
+
+    public boolean hasItem(int i){
+        return this.items[i];
+    }
+
+    public boolean hasAll(){
+        boolean ret = true;
+        for (int i = 0; i < this.items.length; i++) {
+            if (!items[i]) ret = false;
         }
-        if(n == 1){
-            itemShovel = true;
-        }
-        if(n == 2){
-            itemGrappling = true;
-        }
-        if(n == 3){
-            itemNailfiler = true;
-        }
-        else{
-            itemKnife = true;
-        }
-    }
-
-    public boolean isWinner(){
-        return (itemCrowbar && itemShovel && itemGrappling && itemNailfiler && itemKnife);
-    }
-
-    public boolean getItemCrowbar(){
-        return itemCrowbar;
-    }
-
-    public boolean getItemShovel(){
-        return itemShovel;
-    }
-
-    public boolean getItemGrappling(){
-        return itemGrappling;
-    }
-
-    public boolean getItemNailfiler(){
-        return itemNailfiler;
-    }
-
-    public boolean getItemKnife(){
-        return itemKnife;
+        return ret;
     }
 }
